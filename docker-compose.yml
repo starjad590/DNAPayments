@@ -1,0 +1,21 @@
+version: '3.4'
+name: dna-payments
+volumes:
+    dna_mssql:
+networks:
+    dna_net:
+services:
+    sqlserver:
+        container_name: dna-sql
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        restart: always
+        ports:
+            - 7902:1433
+        volumes:
+            - dna_mssql:/var/opt/mssql
+            - ./sql/mssql-backups:/var/opt/backup
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=password1!
+        networks:
+            - dna_net
